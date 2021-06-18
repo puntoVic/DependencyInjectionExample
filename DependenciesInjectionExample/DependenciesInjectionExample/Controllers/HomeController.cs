@@ -12,15 +12,18 @@ namespace DependenciesInjectionExample.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private Models.InventoryDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Models.InventoryDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var lst = _db.Products.ToList();
+            return View(lst);
         }
 
         public IActionResult Privacy()
